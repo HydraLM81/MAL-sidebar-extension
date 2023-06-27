@@ -44,15 +44,16 @@ function handleHover(event) {
         <img src="${imageUrl}" alt="${title}" class="anime-image">
         <h2>${title}</h2>
       </a>
-      <p>${formattedDescription}</p>
-      <p>Score: ${score}/10</p>
+      <p1>${formattedDescription}</p1><br><br><br>
+      <p2>Score: ${score}/10</p2> <br><br>
       <a href="${editUrl}" class="edit-link">Edit</a>
     `;
 
 
-    const descriptionParagraph = sidebarContent.querySelector('p');
-    const regex = /(http[s]?:\/\/[^\s]+)/g;
-    descriptionParagraph.innerHTML = description.replace(regex, '<a href="$1" target="_blank">$1</a>').replace(/<a href="([^"]+)">([^<]+)<\/a>/g, '<a href="$1" target="_blank">$1</a>');
+    const descriptionParagraph = sidebarContent.querySelector('p1'); // Update tag if it's changed above
+    const regex = /(http[s]?:\/\/[^\s)]+)/g;
+    descriptionParagraph.innerHTML = description.replace(regex, '<a href="$1" target="_blank">$1</a>').replace(/<a href="([^"]+)">([^<]+)<\/a>/g, '<a href="$1" target="_blank">$2</a>');
+
 
     /* END OF SIDEBAR*/
     
