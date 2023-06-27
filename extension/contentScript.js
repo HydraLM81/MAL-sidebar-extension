@@ -1,57 +1,53 @@
-// This script will interact with the DOM on the MyAnimeList anime list page.
-
-// Function to handle the hover event
 function handleHover(event) {
-  console.log("CS handleHover triggered");
+  const animeEntry = event.target.closest('tbody.list-item');
 
-  // Get the hovered anime entry element
-  const animeEntry = event.target.closest('.list-table-data');
+  const titleElement = animeEntry.querySelector('.title a');
+  const descriptionElement = animeEntry.querySelector('.text.notes-52034, .text:not(.notes-52034)');
+  const scoreElement = animeEntry.querySelector('.score-label');
 
-  // Get the anime details from the entry
-  const titleElement = animeEntry.querySelector('.data.title');
-  const descriptionElement = animeEntry.querySelector('.data.title+div');
-  const scoreElement = animeEntry.querySelector('.data.score');
-
-  // Check if the required elements exist
-  if (titleElement && descriptionElement && scoreElement) {
-    console.log("CS required elements exist");
-
-    // Get the anime details
+  if (titleElement && titleElement.textContent) {
     const title = titleElement.textContent.trim();
-    const description = descriptionElement.textContent.trim();
-    const score = scoreElement.textContent.trim();
+    const description = descriptionElement ? descriptionElement.textContent.trim() : '';
+    const score = scoreElement ? scoreElement.textContent.trim() : '';
 
-    // Display the sidebar with the anime details
+    console.log('Anime Title:', title);
+    console.log('Description:', description);
+    console.log('Score:', score);
+
+    // Create the sidebar container
     const sidebar = document.createElement('div');
     sidebar.id = 'mal-sidebar';
-    sidebar.innerHTML = `
-      <h2>${title}</h2>
-      <p>${description}</p>
-      <p>Score: ${score}</p>
-    `;
+    sidebar.classList.add('sidebar');
 
-    // Position the sidebar next to the hovered anime entry
-    const rect = animeEntry.getBoundingClientRect();
-    sidebar.style.top = `${rect.top}px`;
-    sidebar.style.left = `${rect.right}px`;
+    // Create the sidebar content
+    const titleHeader = document.createElement('h2');
+    titleHeader.textContent = title;
+    titleHeader.classList.add('sidebar-title');
+
+    const descriptionPara = document.createElement('p');
+    descriptionPara.textContent = description;
+    descriptionPara.classList.add('sidebar-description');
+
+    const scorePara = document.createElement('p');
+    scorePara.textContent = 'Score: ' + score;
+    scorePara.classList.add('sidebar-score');
+
+    // Append the content to the sidebar
+    sidebar.appendChild(titleHeader);
+    sidebar.appendChild(descriptionPara);
+    sidebar.appendChild(scorePara);
 
     // Insert the sidebar into the page
     document.body.appendChild(sidebar);
   }
-  else {
-    console.log("CS required elements do NOT exist");
-  }
 }
 
-// Function to remove the sidebar when the hover event ends
 function removeSidebar() {
   const sidebar = document.getElementById('mal-sidebar');
   if (sidebar) {
     sidebar.remove();
   }
-  console.log("CS removeSidebar triggered.")
 }
 
-// Add event listeners to detect hover events
 document.addEventListener('mouseover', handleHover);
 document.addEventListener('mouseout', removeSidebar);
