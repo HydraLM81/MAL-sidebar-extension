@@ -11,6 +11,7 @@ function handleHover(event) {
     /* SIDEBAR */
 
     const title = titleElement.textContent.trim();
+
     const description = descriptionElement ? descriptionElement.textContent.trim() : '';
     const formattedDescription = description.replace(/\n/g, '<br>'); // fixes newlines so they actually show in the sidebar
     const score = scoreElement ? scoreElement.textContent.trim() : '';
@@ -34,6 +35,11 @@ function handleHover(event) {
       <p>${formattedDescription}</p>
       <p>Score: ${score}</p>
     `;
+
+
+    const descriptionParagraph = sidebarContent.querySelector('p');
+    const regex = /(http[s]?:\/\/[^\s]+)/g;
+    descriptionParagraph.innerHTML = description.replace(regex, '<a href="$1" target="_blank">$1</a>').replace(/<a href="([^"]+)">([^<]+)<\/a>/g, '<a href="$1" target="_blank">$1</a>');
 
     /* END OF SIDEBAR*/
 
