@@ -27,7 +27,8 @@
   "content_scripts": [
   {
     "matches": ["*://myanimelist.net/*"],
-    "js": ["contentScript.js"]
+    "js": ["contentScript.js"],
+    "css": ["sidebar-style.css"]
   }
 ]
 
