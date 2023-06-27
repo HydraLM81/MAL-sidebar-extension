@@ -3,7 +3,11 @@
   "name": "MAL Anime List Sidebar",
   "version": "1.0",
   "description": "Adds a sidebar to the MyAnimeList anime list page with selected anime details and editing options.",
-  "permissions": ["activeTab"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
