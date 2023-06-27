@@ -4,41 +4,55 @@ function handleHover(event) {
   const titleElement = animeEntry.querySelector('.title a');
   const descriptionElement = animeEntry.querySelector('.text.notes-52034, .text:not(.notes-52034)');
   const scoreElement = animeEntry.querySelector('.score-label');
+  const imageElement = animeEntry.querySelector('.image img');
 
   if (titleElement && titleElement.textContent) {
     const title = titleElement.textContent.trim();
     const description = descriptionElement ? descriptionElement.textContent.trim() : '';
     const score = scoreElement ? scoreElement.textContent.trim() : '';
+    const imageUrl = imageElement ? imageElement.src : '';
 
     console.log('Anime Title:', title);
     console.log('Description:', description);
     console.log('Score:', score);
+    console.log('Image URL:', imageUrl);
+
+    removeSidebar();
 
     // Create the sidebar container
     const sidebar = document.createElement('div');
     sidebar.id = 'mal-sidebar';
-    sidebar.classList.add('sidebar');
+    sidebar.style.position = 'fixed';
+    sidebar.style.top = '0';
+    sidebar.style.right = '0';
+    sidebar.style.width = '300px';
+    sidebar.style.padding = '10px';
+    sidebar.style.background = '#fff';
+    sidebar.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.3)';
+    sidebar.style.zIndex = '9999';
+
+    // Create the image element
+    const image = document.createElement('img');
+    image.src = imageUrl;
+    image.alt = title;
+    image.style.maxWidth = '100%';
+    image.style.height = 'auto';
 
     // Create the sidebar content
-    const titleHeader = document.createElement('h2');
-    titleHeader.textContent = title;
-    titleHeader.classList.add('sidebar-title');
+    const sidebarContent = document.createElement('div');
+    sidebarContent.innerHTML = `
+      <h2>${title}</h2>
+      <p>${description}</p>
+      <p>Score: ${score}</p>
+    `;
 
-    const descriptionPara = document.createElement('p');
-    descriptionPara.textContent = description;
-    descriptionPara.classList.add('sidebar-description');
+    sidebar.appendChild(image);
+    sidebar.appendChild(sidebarContent);
 
-    const scorePara = document.createElement('p');
-    scorePara.textContent = 'Score: ' + score;
-    scorePara.classList.add('sidebar-score');
-
-    // Append the content to the sidebar
-    sidebar.appendChild(titleHeader);
-    sidebar.appendChild(descriptionPara);
-    sidebar.appendChild(scorePara);
-
-    // Insert the sidebar into the page
+    // Insert the sidebar into the body element
     document.body.appendChild(sidebar);
+
+    console.log('Sidebar displayed');
   }
 }
 
@@ -50,4 +64,3 @@ function removeSidebar() {
 }
 
 document.addEventListener('mouseover', handleHover);
-document.addEventListener('mouseout', removeSidebar);
