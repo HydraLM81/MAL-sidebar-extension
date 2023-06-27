@@ -1,0 +1,23 @@
+#mal-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 20vh;
+    padding: 10px;
+    background: #fff;
+}
+
+h2 {
+    font-size: 17px;
+}
+
+.list-menu-float {
+    position: absolute;
+    bottom: 0vh;
+    left: 0;
+}
+
+#closeButton {
+    color: black;
+}

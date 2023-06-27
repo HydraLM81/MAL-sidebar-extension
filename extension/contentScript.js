@@ -7,29 +7,18 @@ function handleHover(event) {
   const imageElement = animeEntry.querySelector('.image img');
 
   if (titleElement && titleElement.textContent) {
+
+    /* SIDEBAR */
+
     const title = titleElement.textContent.trim();
     const description = descriptionElement ? descriptionElement.textContent.trim() : '';
+    const formattedDescription = description.replace(/\n/g, '<br>'); // fixes newlines so they actually show in the sidebar
     const score = scoreElement ? scoreElement.textContent.trim() : '';
     const imageUrl = imageElement ? imageElement.src : '';
-
-    console.log('Anime Title:', title);
-    console.log('Description:', description);
-    console.log('Score:', score);
-    console.log('Image URL:', imageUrl);
-
-    removeSidebar();
 
     // Create the sidebar container
     const sidebar = document.createElement('div');
     sidebar.id = 'mal-sidebar';
-    sidebar.style.position = 'fixed';
-    sidebar.style.top = '0';
-    sidebar.style.right = '0';
-    sidebar.style.width = '300px';
-    sidebar.style.padding = '10px';
-    sidebar.style.background = '#fff';
-    sidebar.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.3)';
-    sidebar.style.zIndex = '9999';
 
     // Create the image element
     const image = document.createElement('img');
@@ -42,12 +31,43 @@ function handleHover(event) {
     const sidebarContent = document.createElement('div');
     sidebarContent.innerHTML = `
       <h2>${title}</h2>
-      <p>${description}</p>
+      <p>${formattedDescription}</p>
       <p>Score: ${score}</p>
     `;
 
+    /* END OF SIDEBAR*/
+
+
+    // The side menu thing
+    const listMenu = document.querySelector('.list-menu-float');
+    
+
+    // Create the close button element
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'X';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '5px';
+    closeButton.style.right = '5px';
+    closeButton.style.fontSize = '16px';
+    closeButton.style.fontWeight = 'bold';
+    closeButton.style.background = 'none';
+    closeButton.style.border = 'none';
+    closeButton.style.cursor = 'pointer';
+    // Add event listener to the close button
+    closeButton.addEventListener('click', removeSidebar);
+
+
+    console.log('Anime Title:', title);
+    console.log('Description:', description);
+    console.log('Score:', score);
+    console.log('Image URL:', imageUrl);
+
+
+    removeSidebar();
+
     sidebar.appendChild(image);
     sidebar.appendChild(sidebarContent);
+    sidebar.appendChild(closeButton);
 
     // Insert the sidebar into the body element
     document.body.appendChild(sidebar);
