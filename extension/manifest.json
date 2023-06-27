@@ -5,7 +5,8 @@
   "permissions": [
     "activeTab",
     "scripting",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -22,5 +23,12 @@
     "16": "assest/images/ext-icon.png",
     "48": "assest/images/ext-icon.png",
     "128": "assest/images/ext-icon.png"
+  },
+  "content_scripts": [
+  {
+    "matches": ["*://myanimelist.net/*"],
+    "js": ["contentScript.js"]
   }
+]
+
 }
