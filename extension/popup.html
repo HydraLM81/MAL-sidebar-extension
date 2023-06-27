@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="popupScript.js"></script>
+  <title>Popup</title>
+  <link rel="stylesheet" href="sidebar-style.css">
 </head>
 <body>
-  <div id="sidebar">
-    <h2 id="animeTitle"></h2>
-    <p id="animeDescription"></p>
-    <p id="animeScore"></p>
-    <div class="edit-options">
-      <input type="text" id="editTitle" placeholder="Edit Title">
-      <textarea id="editDescription" placeholder="Edit Description"></textarea>
-      <input type="text" id="editScore" placeholder="Edit Score">
-      <button id="saveButton">Save</button>
+  <h1>Theme Selector</h1>
+  <div class="container">
+    <select id="themeSelect">
+        <!-- Modern Themes -->
+        <option value="defaultTheme">Default Theme</option>
+        <!-- light themes -->
+        <option value="white">White</option>
+        <option value="whiteBlue">White Blue</option>
+        <option value="whiteGreen">White Green</option>
+        <option value="whiteRed">White Red</option>
+        <option value="whiteYellow">White Yellow</option>
+        <!-- dark themes -->
+        <option value="darkBlue">Dark Blue</option>
+        <option value="darkGreen">Dark Green</option>
+        <option value="darkPink">Dark Pink</option>
+        <option value="darkRed">Dark Red</option>
+        <!-- Community Modern Themes -->
+        <option value="dungeonsAndDragons">Dungeons and Dragons</option>
+        <option value="blackout">Blackout</option>
+        <option value="nightShift">Night Shift</option>
+        <option value="cherryBlossom">Cherry Blossom</option>
+        <option value="minimalJapan">Minimal Japan</option>
+        <option value="ramenRestaurant">Ramen Restaurant</option>
+        <!-- Add more theme options as needed -->
+        <option value="customTheme">Custom Theme</option>
     </div>
-  </div>
+    <script src="popupScript.js"></script>
+  </select>
 </body>
 </html>

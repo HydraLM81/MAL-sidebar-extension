@@ -1,15 +1,43 @@
+:root {
+    /**/
+    --background-color: #c0b2b2;
+    --primary-color: #fff;
+    --accent-color-1: blue;
+
+    --top-banner-height: 20vh;
+
+    --hyperlink-color: blue;
+}
+
 #mal-sidebar {
     position: fixed;
-    top: 0;
     left: 0;
+    top: 0;
     height: 100vh;
     width: 25vh;
     padding: 10px;
-    background: #fff;
+    background: var(--background-color);
 }
 
 h2 {
-    font-size: 17px;
+    color: var(--hyperlink-color);
+    font-size: 25px;
+}
+
+h1 {
+    color: var(--hyperlink-color);
+    font-size: 12px;
+}
+
+p1 {
+    font-weight: bold;
+    font-size: 15px;
+    word-wrap: break-word;
+}
+
+p2 {
+    font-weight: bolder;
+    font-size: 20px;
 }
 
 #anime-image {
