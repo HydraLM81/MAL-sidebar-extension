@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     height: 100vh;
-    width: 20vh;
+    width: 25vh;
     padding: 10px;
     background: #fff;
 }
@@ -13,9 +13,7 @@ h2 {
 }
 
 .list-menu-float {
-    position: absolute;
-    bottom: 0vh;
-    left: 0;
+    left: 0px;
 }
 
 #closeButton {

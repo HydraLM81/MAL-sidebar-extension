@@ -1,3 +1,14 @@
+//Made by HydraLM (https://github.com/HydraLM81)
+
+// The side menu thing
+const listMenu = document.querySelector('.list-menu-float');
+//bottom of page
+const windowHeight = window.innerHeight;
+const divHeight = listMenu.offsetHeight;
+const topValue = windowHeight - divHeight + 'px';
+listMenu.style.top = topValue;
+
+
 function handleHover(event) {
   const animeEntry = event.target.closest('tbody.list-item');
 
@@ -42,10 +53,6 @@ function handleHover(event) {
     descriptionParagraph.innerHTML = description.replace(regex, '<a href="$1" target="_blank">$1</a>').replace(/<a href="([^"]+)">([^<]+)<\/a>/g, '<a href="$1" target="_blank">$1</a>');
 
     /* END OF SIDEBAR*/
-
-
-    // The side menu thing
-    const listMenu = document.querySelector('.list-menu-float');
     
 
     // Create the close button element
@@ -78,6 +85,13 @@ function handleHover(event) {
     // Insert the sidebar into the body element
     document.body.appendChild(sidebar);
 
+    //move side menu to right of sidebar
+    const listMenuFloat = document.querySelector('.list-menu-float');
+    if (listMenuFloat) {
+      const sidebarWidth = sidebar.getBoundingClientRect().width;
+      listMenuFloat.style.left = `${sidebarWidth}px`;
+    }
+
     console.log('Sidebar displayed');
   }
 }
@@ -86,6 +100,7 @@ function removeSidebar() {
   const sidebar = document.getElementById('mal-sidebar');
   if (sidebar) {
     sidebar.remove();
+    listMenu.style.left = '0px';
   }
 }
 
