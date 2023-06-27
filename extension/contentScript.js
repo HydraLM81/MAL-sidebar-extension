@@ -16,35 +16,37 @@ function handleHover(event) {
   const descriptionElement = animeEntry.querySelector('.text.notes-52034, .text:not(.notes-52034)');
   const scoreElement = animeEntry.querySelector('.score-label');
   const imageElement = animeEntry.querySelector('.image img');
+  const animeLink = animeEntry.querySelector('.data.title.clearfix a');
+  const animeUrl = animeLink.href;
+  const editLink = animeEntry.querySelector('.add-edit-more .edit a');
+  const editUrl = editLink.href;
 
   if (titleElement && titleElement.textContent) {
 
     /* SIDEBAR */
 
     const title = titleElement.textContent.trim();
-
     const description = descriptionElement ? descriptionElement.textContent.trim() : '';
     const formattedDescription = description.replace(/\n/g, '<br>'); // fixes newlines so they actually show in the sidebar
     const score = scoreElement ? scoreElement.textContent.trim() : '';
     const imageUrl = imageElement ? imageElement.src : '';
 
+
     // Create the sidebar container
     const sidebar = document.createElement('div');
     sidebar.id = 'mal-sidebar';
 
-    // Create the image element
-    const image = document.createElement('img');
-    image.src = imageUrl;
-    image.alt = title;
-    image.style.maxWidth = '100%';
-    image.style.height = 'auto';
 
     // Create the sidebar content
     const sidebarContent = document.createElement('div');
     sidebarContent.innerHTML = `
-      <h2>${title}</h2>
+      <a href="${animeUrl}">
+        <img src="${imageUrl}" alt="${title}" class="anime-image">
+        <h2>${title}</h2>
+      </a>
       <p>${formattedDescription}</p>
-      <p>Score: ${score}</p>
+      <p>Score: ${score}/10</p>
+      <a href="${editUrl}" class="edit-link">Edit</a>
     `;
 
 
@@ -78,7 +80,6 @@ function handleHover(event) {
 
     removeSidebar();
 
-    sidebar.appendChild(image);
     sidebar.appendChild(sidebarContent);
     sidebar.appendChild(closeButton);
 

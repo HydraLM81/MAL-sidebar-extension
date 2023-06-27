@@ -12,8 +12,9 @@ h2 {
     font-size: 17px;
 }
 
-.list-menu-float {
-    left: 0px;
+#anime-image {
+    max-width: 100%;
+    height: auto;
 }
 
 #closeButton {
