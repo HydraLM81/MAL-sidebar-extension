@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+    "name": "MAL Anime List Sidebar",
+    "version": "1.0",
+    "description": "Adds a sidebar to the MyAnimeList anime list page with selected anime details and editing options.",
+    "permissions": [
+      "activeTab"
+    ],
+    "content_scripts": [
+      {
+        "matches": [
+          "*://myanimelist.net/animelist/*"
+        ],
+        "js": ["contentScript.js"]
+      }
+    ],
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+      }
+    }
+  }
+  
