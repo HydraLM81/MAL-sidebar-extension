@@ -8,12 +8,14 @@ document.addEventListener('mouseover', function(event) {
     const animeTitleElem = animeEntry.querySelector('.animetitle');
     const animeDescriptionElem = animeEntry.querySelector('.pt4');
     const animeScoreElem = animeEntry.querySelector('.score .score-label');
+    console.log("if(animeEntry) triggered");
 
     // Check if the elements are found in the DOM
     if (animeTitleElem && animeDescriptionElem && animeScoreElem) {
       const animeTitle = animeTitleElem.textContent.trim();
       const animeDescription = animeDescriptionElem.textContent.trim();
       const animeScore = animeScoreElem.textContent.trim();
+      console.log("Elements found in DOM");
 
       // Send anime details to the extension popup
       chrome.runtime.sendMessage({
@@ -22,6 +24,9 @@ document.addEventListener('mouseover', function(event) {
         description: animeDescription,
         score: animeScore
       });
+    }
+    else {
+      console.log("Elements NOT found in DOM");
     }
   }
 });

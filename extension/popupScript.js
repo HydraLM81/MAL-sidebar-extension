@@ -12,6 +12,7 @@ const saveButtonElem = document.getElementById('saveButton');
 // Receive anime details from content script
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === 'animeHovered') {
+    console.log("request.action==animeHovered triggered and passed");
     animeTitleElem.textContent = request.title;
     animeDescriptionElem.textContent = request.description;
     animeScoreElem.textContent = request.score;
@@ -27,10 +28,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 // Hide the sidebar when the mouse leaves the popup
 document.addEventListener('mouseleave', function() {
   document.body.classList.remove('sidebar-visible');
+  console.log("mouseleave event triggered");
 });
 
 // Save button click event handler
 saveButtonElem.addEventListener('click', function() {
+  console.log("click event triggered");
   const editedTitle = editTitleElem.value;
   const editedDescription = editDescriptionElem.value;
   const editedScore = editScoreElem.value;
@@ -42,4 +45,6 @@ saveButtonElem.addEventListener('click', function() {
   setTimeout(function() {
     saveButtonElem.textContent = 'Save';
   }, 1000);
+
+  console.log("click event finished");
 });
