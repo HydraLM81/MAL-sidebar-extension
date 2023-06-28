@@ -8,6 +8,18 @@ const divHeight = listMenu.offsetHeight;
 const topValue = windowHeight - divHeight + 'px';
 listMenu.style.top = topValue;
 
+var selectedTheme = 'defaultTheme';
+
+const themes = {
+  defaultTheme: {
+      backgroundColor: 'white',
+      accentColor1: 'blue',
+  },
+  white: {
+      backgroundColor: '#ffff00',
+      accentColor1: 'purple',
+  },
+};
 
 function handleHover(event) {
   const animeEntry = event.target.closest('tbody.list-item');
@@ -35,9 +47,9 @@ function handleHover(event) {
 
 
       // Create the sidebar container
-      const sidebar = document.createElement('div');
+      var sidebar = document.createElement('div');
       sidebar.id = 'mal-sidebar';
-
+      sidebar.style.background = themes[selectedTheme]['backgroundColor'];
 
       // Create the sidebar content
       const sidebarContent = document.createElement('div');
@@ -122,43 +134,6 @@ document.addEventListener('mouseover', handleHover);
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === 'updateTheme') {
-    const selectedTheme = message.selectedTheme;
-    const themeVariables = getThemeVariables(selectedTheme);
-
-    // Update the CSS variables in sidebar-style.css
-    const root = document.documentElement;
-    Object.keys(themeVariables).forEach((key) => {
-      root.style.setProperty(`--${key}`, themeVariables[key]);
-    });
+    selectedTheme = message.selectedTheme;
   }
 });
-
-function getThemeVariables(selectedTheme) {
-  // Define the CSS variables for each theme
-  const themes = {
-    defaultTheme: {
-      primaryColor: '#000000',
-      secondaryColor: '#ffffff',
-      // Add more CSS variables for the default theme
-    },
-    white: {
-      primaryColor: '#333333',
-      secondaryColor: '#eeeeee',
-      // Add more CSS variables for the dark theme
-    },
-    // Define more themes here
-    // theme1: {
-    //   primaryColor: '#ff0000',
-    //   secondaryColor: '#00ff00',
-    //   // Add more CSS variables for theme1
-    // },
-    // theme2: {
-    //   primaryColor: '#0000ff',
-    //   secondaryColor: '#ffff00',
-    //   // Add more CSS variables for theme2
-    // },
-  };
-
-  // Return the CSS variables for the selected theme
-  return themes[selectedTheme] || themes.default;
-}

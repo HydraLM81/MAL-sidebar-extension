@@ -5,7 +5,7 @@ const themeSelect = document.getElementById('themeSelect');
 chrome.storage.local.get('selectedTheme', function(result) {
   const selectedTheme = result.selectedTheme || 'default';
   themeSelect.value = selectedTheme;
-
+  console.log("got here");
   // Send a message to the content script to update the theme
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     const message = {
@@ -19,7 +19,7 @@ chrome.storage.local.get('selectedTheme', function(result) {
 // Theme select change event handler
 themeSelect.addEventListener('change', function(event) {
   const selectedTheme = event.target.value;
-
+  console.log("even here");
   // Store the selected theme in local storage
   chrome.storage.local.set({ selectedTheme });
   console.log('Theme changed to ',selectedTheme);
@@ -32,4 +32,5 @@ themeSelect.addEventListener('change', function(event) {
     };
     chrome.tabs.sendMessage(tabs[0].id, message);
   });
+
 });
