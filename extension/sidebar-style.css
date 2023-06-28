@@ -13,9 +13,8 @@
 #mal-sidebar {
     position: fixed;
     left: 0;
-    top: 0;
     height: 100vh;
-    width: 25vh;
+    width: 18.3vw;
     padding: 10px;
 }
 
@@ -41,7 +40,7 @@ p2 {
 }
 
 #anime-image {
-    max-width: 100%;
+    max-width: 200%;
     height: auto;
 }
 

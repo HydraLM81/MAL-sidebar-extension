@@ -12,6 +12,8 @@ var selectedTheme = 'defaultTheme';
 
 const themes = {
   defaultTheme: {
+      topBannerBuffer: 190,
+      permanentBuffer: 100,
       backgroundColor: 'white',
       accentColor1: 'blue',
   },
@@ -20,6 +22,8 @@ const themes = {
       accentColor1: 'purple',
   },
 };
+
+
 
 function handleHover(event) {
   const animeEntry = event.target.closest('tbody.list-item');
@@ -49,7 +53,7 @@ function handleHover(event) {
       // Create the sidebar container
       var sidebar = document.createElement('div');
       sidebar.id = 'mal-sidebar';
-      sidebar.style.background = themes[selectedTheme]['backgroundColor'];
+      sidebar.style.backgroundColor = themes[selectedTheme]['backgroundColor'];
 
       // Create the sidebar content
       const sidebarContent = document.createElement('div');
@@ -108,14 +112,16 @@ function handleHover(event) {
       // Insert the sidebar into the body element
       document.body.appendChild(sidebar);
 
+      updateStyleTop()
+      
       //move side menu to right of sidebar
       const listMenuFloat = document.querySelector('.list-menu-float');
       if (listMenuFloat) {
         const sidebarWidth = sidebar.getBoundingClientRect().width;
         listMenuFloat.style.left = `${sidebarWidth}px`;
-      }
+      } 
 
-      console.log('Sidebar displayed');
+      console.log('Sidebar displayed at',sidebar.style.top);
     }
   }
 }
@@ -128,6 +134,21 @@ function removeSidebar() {
   }
 }
 
+function updateStyleTop() {
+  const sidebar = document.getElementById('mal-sidebar');
+  const buffer = themes[selectedTheme]['topBannerBuffer']; // Distance in pixels from the top of the page
+  const scrollTop = window.scrollY;
+  const permaBuffer = themes[selectedTheme]['permanentBuffer']
+ 
+  if(buffer == permaBuffer){
+    sidebar.style.top = permaBuffer + `px`;
+  } else if (scrollTop >= buffer - permaBuffer) {
+    sidebar.style.top = permaBuffer + `px`;
+  } else {
+    sidebar.style.top = `${(buffer - scrollTop)}px`;
+  }
+}
+
 document.addEventListener('mouseover', handleHover);
 
 
@@ -137,3 +158,5 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     selectedTheme = message.selectedTheme;
   }
 });
+
+window.addEventListener('scroll', updateStyleTop);
