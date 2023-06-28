@@ -14,13 +14,13 @@
     position: fixed;
     left: 0;
     height: 100vh;
-    width: 18.3vw;
     padding: 10px;
 }
 
 h2 {
     color: var(--hyperlink-color);
     font-size: 25px;
+    word-wrap: break-word;
 }
 
 h1 {
@@ -37,11 +37,6 @@ p1 {
 p2 {
     font-weight: bolder;
     font-size: 20px;
-}
-
-#anime-image {
-    max-width: 200%;
-    height: auto;
 }
 
 #closeButton {

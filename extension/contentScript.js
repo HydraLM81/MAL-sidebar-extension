@@ -1,21 +1,13 @@
 //Made by HydraLM (https://github.com/HydraLM81)
 
-// The side menu thing
-const listMenu = document.querySelector('.list-menu-float');
-//bottom of page
-const windowHeight = window.innerHeight;
-const divHeight = listMenu.offsetHeight;
-const topValue = windowHeight - divHeight + 'px';
-listMenu.style.top = topValue;
-
 var selectedTheme = 'defaultTheme';
 
 const themes = {
   defaultTheme: {
-      topBannerBuffer: 190,
-      permanentBuffer: 100,
-      backgroundColor: 'white',
-      accentColor1: 'blue',
+      topBannerBuffer: 190, //finished
+      permanentBuffer: 190, //finished
+      backgroundColor: 'white',//finished
+      accentColor1: 'white', //finished
   },
   white: {
       backgroundColor: '#ffff00',
@@ -24,10 +16,26 @@ const themes = {
 };
 
 
+// The side menu thing
+const listMenu = document.querySelector('.list-menu-float');
+//bottom of page    window.innerHeight - listMenu.offsetHeight + 'px';
+listMenu.style.top = themes[selectedTheme]['topBannerBuffer'];
+
+
+
+const listContainer = document.querySelector('.list-container');
+var windowWidth = window.innerWidth;
+var listBlockWidth = listContainer.offsetWidth;
+var freeArea = windowWidth - listBlockWidth;
+
+listMenu.style.left = `${(freeArea / 2) + listBlockWidth}px`;
 
 function handleHover(event) {
+
   const animeEntry = event.target.closest('tbody.list-item');
+
   if(animeEntry.querySelector('.title a')){
+
     const titleElement = animeEntry.querySelector('.title a');
     const airElement = animeEntry.querySelector('.content-status');
     const descriptionElement = animeEntry.querySelector('.text.notes-52034, .text:not(.notes-52034)');
@@ -54,12 +62,30 @@ function handleHover(event) {
       var sidebar = document.createElement('div');
       sidebar.id = 'mal-sidebar';
       sidebar.style.backgroundColor = themes[selectedTheme]['backgroundColor'];
+      console.log("scroll is ", window.scrollY);
+
+      /*
+        SIDEBAR WIDTH
+      */
+      const windowWidth = window.innerWidth;
+      const listContainer = document.querySelector('.list-container');
+      const listBlockWidth = listContainer.offsetWidth;
+      const freeArea = windowWidth - listBlockWidth;
+      const sidebarWidth = (freeArea / 2) - 30;
+
+      sidebar.style.width = `${Math.max(sidebarWidth, (window.innerWidth*.05))}px`;
+      
+      if(sidebarWidth < window.innerWidth*.05) {
+        sidebar.style.opacity = `.75`;
+      } else {
+        sidebar.style.opacity = `1`;
+      }
 
       // Create the sidebar content
       const sidebarContent = document.createElement('div');
       sidebarContent.innerHTML = `
         <a href="${animeUrl}">
-          <img src="${imageUrl}" alt="${title}" class="anime-image">
+          <img src="${imageUrl}" alt="${title}" class="anime-image" width="${Math.min((Math.max((sidebarWidth - 40), (window.innerWidth * .04))), window.innerWidth * .15)}">
           <h2>${title}</h2>
           <h1>${airStatus}</h1> <br><br>
         </a>`;
@@ -113,15 +139,6 @@ function handleHover(event) {
       document.body.appendChild(sidebar);
 
       updateStyleTop()
-      
-      //move side menu to right of sidebar
-      const listMenuFloat = document.querySelector('.list-menu-float');
-      if (listMenuFloat) {
-        const sidebarWidth = sidebar.getBoundingClientRect().width;
-        listMenuFloat.style.left = `${sidebarWidth}px`;
-      } 
-
-      console.log('Sidebar displayed at',sidebar.style.top);
     }
   }
 }
@@ -130,7 +147,33 @@ function removeSidebar() {
   const sidebar = document.getElementById('mal-sidebar');
   if (sidebar) {
     sidebar.remove();
-    listMenu.style.left = '0px';
+  }
+}
+
+function updateWidthDependancies(){
+  windowWidth = window.innerWidth;
+  listBlockWidth = listContainer.offsetWidth;
+  freeArea = windowWidth - listBlockWidth;
+
+  listMenu.style.left = `${(freeArea / 2) + listBlockWidth}px`;
+
+  const sidebar = document.getElementById('mal-sidebar');
+
+  if(sidebar) {
+    const sidebarWidth = (freeArea / 2) - 30;
+    sidebar.style.width = `${Math.min((Math.max(sidebarWidth, (window.innerWidth * .05))), window.innerWidth * .2)}px`;
+
+    const imageElement = sidebar.querySelector('.anime-image');
+
+    if (imageElement) {
+      imageElement.style.width = `${Math.min((Math.max((sidebarWidth - 40), (window.innerWidth * .04))), window.innerWidth * .15)}px`;
+    }
+    
+    if(sidebarWidth < window.innerWidth*.05){
+      sidebar.style.opacity = `.75`;
+    } else {
+      sidebar.style.opacity = `1`;
+    }
   }
 }
 
@@ -138,20 +181,23 @@ function updateStyleTop() {
   const sidebar = document.getElementById('mal-sidebar');
   const buffer = themes[selectedTheme]['topBannerBuffer']; // Distance in pixels from the top of the page
   const scrollTop = window.scrollY;
-  const permaBuffer = themes[selectedTheme]['permanentBuffer']
+  const permaBuffer = themes[selectedTheme]['permanentBuffer'];
  
   if(buffer == permaBuffer){
-    sidebar.style.top = permaBuffer + `px`;
+    sidebar.style.top = `${permaBuffer}px`;
+    listMenu.style.top = `${permaBuffer}px`;
   } else if (scrollTop >= buffer - permaBuffer) {
-    sidebar.style.top = permaBuffer + `px`;
+    sidebar.style.top = `${permaBuffer}px`;
+    listMenu.style.top = `${permaBuffer}px`;
   } else {
-    sidebar.style.top = `${(buffer - scrollTop)}px`;
+    sidebar.style.top = `${buffer - scrollTop}px`;
+    listMenu.style.top = `${buffer - scrollTop}px`;
   }
 }
 
 document.addEventListener('mouseover', handleHover);
 
-
+window.addEventListener('resize', updateWidthDependancies);
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === 'updateTheme') {
