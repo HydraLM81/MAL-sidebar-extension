@@ -22,7 +22,6 @@ const listMenu = document.querySelector('.list-menu-float');
 listMenu.style.top = themes[selectedTheme]['topBannerBuffer'];
 
 
-
 const listContainer = document.querySelector('.list-container');
 var windowWidth = window.innerWidth;
 var listBlockWidth = listContainer.offsetWidth;
@@ -35,28 +34,11 @@ function handleHover(event) {
   const animeEntry = event.target.closest('tbody.list-item');
 
   if(animeEntry.querySelector('.title a')){
-
     const titleElement = animeEntry.querySelector('.title a');
-    const airElement = animeEntry.querySelector('.content-status');
-    const descriptionElement = animeEntry.querySelector('.text.notes-52034, .text:not(.notes-52034)');
-    const scoreElement = animeEntry.querySelector('.score-label');
-    const imageElement = animeEntry.querySelector('.image img');
-    const animeLink = animeEntry.querySelector('.data.title.clearfix a');
-    const animeUrl = animeLink.href;
-    const editLink = animeEntry.querySelector('.add-edit-more .edit a');
-    const editUrl = editLink.href;
 
     if (titleElement && titleElement.textContent) {
 
       /* SIDEBAR */
-
-      const title = titleElement.textContent.trim();
-      const airStatus = airElement.textContent.trim();
-      const description = descriptionElement ? descriptionElement.textContent.trim() : '';
-      const formattedDescription = description.replace(/\n/g, '<br>'); // fixes newlines so they actually show in the sidebar
-      const score = scoreElement ? scoreElement.textContent.trim() : '';
-      const imageUrl = imageElement ? imageElement.src : '';
-
 
       // Create the sidebar container
       var sidebar = document.createElement('div');
@@ -67,6 +49,7 @@ function handleHover(event) {
       /*
         SIDEBAR WIDTH
       */
+    
       const windowWidth = window.innerWidth;
       const listContainer = document.querySelector('.list-container');
       const listBlockWidth = listContainer.offsetWidth;
@@ -80,30 +63,61 @@ function handleHover(event) {
       } else {
         sidebar.style.opacity = `1`;
       }
+    
 
       // Create the sidebar content
       const sidebarContent = document.createElement('div');
+      sidebarContent.id = `sidebar-content`;
+
+      const animeLink = animeEntry.querySelector('.data.title.clearfix a');
+      const imageElement = animeEntry.querySelector('.image img');
+      const imageUrl = imageElement ? imageElement.src : '';
+      const title = titleElement.textContent.trim();
+      const airElement = animeEntry.querySelector('.content-status');
+
       sidebarContent.innerHTML = `
-        <a href="${animeUrl}">
+        <a href="${animeLink.href}">
           <img src="${imageUrl}" alt="${title}" class="anime-image" width="${Math.min((Math.max((sidebarWidth - 40), (window.innerWidth * .04))), window.innerWidth * .15)}">
           <h2>${title}</h2>
-          <h1>${airStatus}</h1> <br><br>
+          <h1>${airElement.textContent.trim()}</h1>
         </a>`;
 
-        if(formattedDescription!=null) {
-          sidebarContent.innerHTML+=`<p1>${formattedDescription}</p1><br><br><br>`;
-        }
-        if(score!=null) {
-          sidebarContent.innerHTML+=`<p2>Score: ${score}/10</p2> <br><br>`;
-        }
-        if(editUrl!=null) {
-          sidebarContent.innerHTML+=`<a href="${editUrl}" class="edit-link">Edit</a>`;
-        }
+      console.log('Anime Title:', title);
+      console.log('Image URL:', imageUrl);
 
 
-      const descriptionParagraph = sidebarContent.querySelector('p1'); // Update tag if it's changed above
-      const regex = /(http[s]?:\/\/[^\s)]+)/g;
-      descriptionParagraph.innerHTML = description.replace(regex, '<a href="$1" target="_blank">$1</a>').replace(/<a href="([^"]+)">([^<]+)<\/a>/g, '<a href="$1" target="_blank">$2</a>');
+      const descriptionElement = animeEntry.querySelector('.text.notes-52034, .text:not(.notes-52034)');
+      if(descriptionElement.textContent != null) {
+        const description = descriptionElement ? descriptionElement.textContent.trim() : '';
+        const formattedDescription = description.replace(/\n/g, '<br>'); // fixes newlines so they actually show in the sidebar
+        sidebarContent.innerHTML+=`<p1>${formattedDescription}</p1>`;
+        console.log('Description:', description);
+      }
+
+      const editLink = animeEntry.querySelector('.add-edit-more .edit a');
+      if(editLink.href != null) {
+        sidebarContent.innerHTML+=`<a2 href="${editLink.href}" class="edit-link">Edit</a2>`;
+        const editButton = sidebarContent.querySelector('.edit-link');
+        editButton.addEventListener('click', function() {
+          simulateElementClick(animeEntry, '.add-edit-more .edit a');
+        });
+      }
+
+      const scoreElement = animeEntry.querySelector('.score-label');
+      const score = scoreElement ? scoreElement.textContent.trim() : '';
+      if(score != null) {
+        sidebarContent.innerHTML+=`<p2 class="score-text">Score: ${score}/10</p2>`;
+        const scoreButton = sidebarContent.querySelector('.score-text');
+        scoreButton.addEventListener('click', function() {
+          simulateElementClick(animeEntry, '.data.score a');
+        });
+        console.log('Score:', score);
+      }
+
+      const typeElement = animeEntry.querySelector('.data.type');
+      if(typeElement.textContent != null) {
+        sidebarContent.innerHTML+=`<p3 class="type-text">Score: ${typeElement.textContent}</p3>`;
+      }
 
 
       /* END OF SIDEBAR*/
@@ -124,12 +138,6 @@ function handleHover(event) {
       closeButton.addEventListener('click', removeSidebar);
 
 
-      console.log('Anime Title:', title);
-      console.log('Description:', description);
-      console.log('Score:', score);
-      console.log('Image URL:', imageUrl);
-
-
       removeSidebar();
 
       sidebar.appendChild(sidebarContent);
@@ -147,6 +155,18 @@ function removeSidebar() {
   const sidebar = document.getElementById('mal-sidebar');
   if (sidebar) {
     sidebar.remove();
+  }
+}
+
+function simulateElementClick(animeEntry, elementId) {
+  const element = animeEntry.querySelector(elementId);
+  if (element) {
+    const clickEvent = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    element.dispatchEvent(clickEvent);
   }
 }
 
