@@ -1,0 +1,2 @@
+In no way is the provided service to share anything to any other service/database other than MyAnimeList.net and it's associated services.
+All stored data pertaining to the provided service is stored locally (on the user's device) and is never shared

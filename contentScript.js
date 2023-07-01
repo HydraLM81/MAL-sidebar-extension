@@ -90,42 +90,25 @@ function handleHover(event) {
       if(descriptionElement.textContent != null) {
         const description = descriptionElement ? descriptionElement.textContent.trim() : '';
         const formattedDescription = description.replace(/\n/g, '<br>'); // fixes newlines so they actually show in the sidebar
-        sidebarContent.innerHTML+=`<p1 class="sidebar-description">${formattedDescription}</p1>`;
+        sidebarContent.innerHTML+=`<p1>${formattedDescription}</p1>`;
         console.log('Description:', description);
       }
 
       const editLink = animeEntry.querySelector('.add-edit-more .edit a');
       if(editLink.href != null) {
-        sidebarContent.innerHTML+=`<a2 href="${editLink.href}" class="sidebar-edit-link">Edit</a2>`;
+        sidebarContent.innerHTML+=`<a2 href="${editLink.href}" class="edit-link">Edit</a2>`;
       }
 
       const scoreElement = animeEntry.querySelector('.score-label');
       const score = scoreElement ? scoreElement.textContent.trim() : '';
       if(score != null) {
-        sidebarContent.innerHTML+=`
-        <p2 class="sidebar-score-text">Score: </p2>
-        <select id="sidebar-score-dropdown">
-          <option value="0">-</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-        </select>
-        <p2 class="sidebar-score-text
-        `;
-        
+        sidebarContent.innerHTML+=`<p2 class="score-text">Score: ${score}/10</p2>`;
         console.log('Score:', score);
       }
 
       const typeElement = animeEntry.querySelector('.data.type');
       if(typeElement.textContent != null) {
-        sidebarContent.innerHTML+=`<p3 class="sidebar-type-text">Score: ${typeElement.textContent}</p3>`;
+        sidebarContent.innerHTML+=`<p3 class="type-text">Score: ${typeElement.textContent}</p3>`;
       }
 
 
@@ -159,35 +142,6 @@ function handleHover(event) {
     }
   }
 }
-
-
-function updateScore(animeId) {
-  const scoreDropdown = document.getElementById('sidebar-score-dropdown');
-  const newScore = scoreDropdown.value;
-
-  // Make a PUT request to update the anime score
-  fetch(`https://api.myanimelist.net/v2/anime/${animeId}/my_list_status`, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      score: newScore,
-    }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      // Handle the response as needed
-      console.log('Score updated successfully:', data);
-    })
-    .catch(error => {
-      // Handle errors
-      console.error('Error updating score:', error);
-    });
-}
-
-
 
 function removeSidebar() {
   const sidebar = document.getElementById('mal-sidebar');
