@@ -13,7 +13,7 @@ The extension also allows theme-specific customization of the sidebar through bo
 <img src="assets/images/MAL-example-(1:6-27).png"  width="600">
 
 Any features or bugs, contact me at:\
-Github: https://github.com/HydraLM81\
+Github: https://github.com/HydraLM81 \
 Discord: https://discord.gg/9zYQsGC73v (Server) / hydralm / HydraLM#9022 \
 Gmail: hydralm81@gmail.com
 

@@ -11,18 +11,18 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "assest/images/ext-icon.png",
-      "48": "assest/images/ext-icon.png",
-      "128": "assest/images/ext-icon.png"
+      "16": "assets/images/ext-icon.png",
+      "48": "assets/images/ext-icon.png",
+      "128": "assets/images/ext-icon.png"
     }
   },
   "background": {
     "service_worker": "background.js"
   },
   "icons": {
-    "16": "assest/images/ext-icon.png",
-    "48": "assest/images/ext-icon.png",
-    "128": "assest/images/ext-icon.png"
+    "16": "assets/images/ext-icon.png",
+    "48": "assets/images/ext-icon.png",
+    "128": "assets/images/ext-icon.png"
   },
   "content_scripts": [
   {
