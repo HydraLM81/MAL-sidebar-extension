@@ -10,7 +10,7 @@ Through the MAL API and webscraping, the extension fetches real-time data from t
 
 The extension also allows theme-specific customization of the sidebar through both premade themes (coming soon) and through custom CSS provided by the user (coming soon) making the sidebar fit in no matter the user's selected theme. (What makes the sidebar fit in is based off of my personal opinion and what I think might fit in may not look good to the user)
 
-<img src="assets/images/MAL-example-(1:6-27).png"  width="600">
+<img src="assets/images/MAL-example-(1_6-27).png"  width="600">
 
 Any features or bugs, contact me at:\
 Github: https://github.com/HydraLM81 \
