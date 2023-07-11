@@ -29,6 +29,8 @@ var freeArea = windowWidth - listBlockWidth;
 
 listMenu.style.left = `${(freeArea / 2) + listBlockWidth}px`;
 
+
+document.addEventListener('mouseover', handleHover);
 function handleHover(event) {
 
   const animeEntry = event.target.closest('tbody.list-item');
@@ -75,6 +77,8 @@ function handleHover(event) {
       const title = titleElement.textContent.trim();
       const airElement = animeEntry.querySelector('.content-status');
 
+      const animeId = animeLink.href.match(/\/anime\/(\d+)\//)[1];
+
       sidebarContent.innerHTML = `
         <a href="${animeLink.href}">
           <img src="${imageUrl}" alt="${title}" class="anime-image" width="${Math.min((Math.max((sidebarWidth - 40), (window.innerWidth * .04))), window.innerWidth * .15)}">
@@ -88,27 +92,30 @@ function handleHover(event) {
 
       const descriptionElement = animeEntry.querySelector('.text.notes-52034, .text:not(.notes-52034)');
       if(descriptionElement.textContent != null) {
-        const description = descriptionElement ? descriptionElement.textContent.trim() : '';
+        var description = descriptionElement ? descriptionElement.textContent.trim() : '';
+        const regex = /(http[s]?:\/\/[^\s]+)/g;
+        description = description.replace(regex, '<a href="$1" target="_blank">$1</a>').replace(/<a href="([^"]+)">([^<]+)<\/a>/g, '<a href="$1" target="_blank">$1</a>');
         const formattedDescription = description.replace(/\n/g, '<br>'); // fixes newlines so they actually show in the sidebar
-        sidebarContent.innerHTML+=`<p1>${formattedDescription}</p1>`;
+        sidebarContent.innerHTML+=`<p1>${formattedDescription}</p1><br>`;
         console.log('Description:', description);
       }
 
       const editLink = animeEntry.querySelector('.add-edit-more .edit a');
       if(editLink.href != null) {
-        sidebarContent.innerHTML+=`<a2 href="${editLink.href}" class="edit-link">Edit</a2>`;
+        sidebarContent.innerHTML+=`<a href="${editLink.href}" class="edit-link">Edit</a><br>`;
+        
       }
 
       const scoreElement = animeEntry.querySelector('.score-label');
       const score = scoreElement ? scoreElement.textContent.trim() : '';
       if(score != null) {
-        sidebarContent.innerHTML+=`<p2 class="score-text">Score: ${score}/10</p2>`;
+        sidebarContent.innerHTML+=`<p2 class="score-text">Score: ${score}/10</p2><br>`;
         console.log('Score:', score);
       }
 
       const typeElement = animeEntry.querySelector('.data.type');
       if(typeElement.textContent != null) {
-        sidebarContent.innerHTML+=`<p3 class="type-text">Score: ${typeElement.textContent}</p3>`;
+        sidebarContent.innerHTML+=`<p3 class="type-text">Type: ${typeElement.textContent}</p3>`;
       }
 
 
@@ -143,12 +150,15 @@ function handleHover(event) {
   }
 }
 
+
 function removeSidebar() {
   const sidebar = document.getElementById('mal-sidebar');
   if (sidebar) {
     sidebar.remove();
   }
 }
+
+window.addEventListener('resize', updateWidthDependancies);
 
 function updateWidthDependancies(){
   windowWidth = window.innerWidth;
@@ -177,6 +187,8 @@ function updateWidthDependancies(){
   }
 }
 
+window.addEventListener('scroll', updateStyleTop);
+
 function updateStyleTop() {
   const sidebar = document.getElementById('mal-sidebar');
   const buffer = themes[selectedTheme]['topBannerBuffer']; // Distance in pixels from the top of the page
@@ -195,14 +207,9 @@ function updateStyleTop() {
   }
 }
 
-document.addEventListener('mouseover', handleHover);
-
-window.addEventListener('resize', updateWidthDependancies);
-
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === 'updateTheme') {
     selectedTheme = message.selectedTheme;
   }
 });
 
-window.addEventListener('scroll', updateStyleTop);
